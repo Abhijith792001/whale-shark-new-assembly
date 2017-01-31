@@ -1,2 +1,2 @@
 # whale-shark-pacbio
-Scripts utilized in analysis of the Whale Shark Genome assembled from PacBio sequences
+Scripts utilized in analysis of the updated Whale Shark Genome assembly
