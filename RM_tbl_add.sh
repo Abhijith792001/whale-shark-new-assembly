@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ########################################################################
 #
@@ -26,12 +26,12 @@ printf "sequences: %13d \n" "$seqs"
 tl=`grep 'total ' "$tbl" | awk '{sum += $3} END {print sum}'`
 tle=`grep 'total ' "$tbl" | tr -d '(' | awk '{sum += $5} END {print sum}'`
 printf "total length: %10d bp  (%d by excl N/X-runs)\n" "$tl" "$tle"
-#gc = 
-printf "GC level: \n"
+totals=`grep 'total ' "$tbl" | tr -d '(' | awk '{print $5}'`
+gc=`paste <(grep 'total ' "$tbl" | tr -d '(' | awk '{print $5}') <(grep 'GC ' "$tbl" | awk '{print $3}') | awk '{printf("%.0f\n", $1*$2/100)}' | awk '{sum += $1} END {print sum}'`
+printf "GC level: %13.2f %%\n" `echo "$gc $tle" | awk '{printf "%.2f", 100*$1/$2}'`
 bm=`grep 'bases ' "$tbl" | awk '{sum += $3} END {print sum}'`
 bmp=`echo "$bm $tle" | awk '{printf "%.2f", 100*$1/$2}'`
 printf "bases masked: %10d bp (%5.2f %%)\n" "$bm" "$bmp"
-# 189045927/2931582331
 printf "==================================================\n"
 printf "               number of      length   percentage\n"
 printf "               elements*    occupied  of sequence\n"
@@ -67,7 +67,7 @@ dna_l=`grep 'DNA elements' "$tbl" | awk '{sum += $4} END {print sum}'`
 printf "DNA elements: %9d %12d bp   %5.2f %%\n" `grep 'DNA elements' "$tbl" | awk '{sum += $3} END {print sum}'` "$dna_l" `echo "$dna_l $tle" | awk '{printf "%.2f", 100*$1/$2}'`
 hAT_l=`grep 'hAT' "$tbl" | awk '{sum += $3} END {print sum}'`
 printf "      hAT-Charlie %5d %12d bp   %5.2f %%\n" `grep 'hAT' "$tbl" | awk '{sum += $2} END {print sum}'` "$hAT_l" `echo "$hAT_l $tle" | awk '{printf "%.2f", 100*$1/$2}'`
-TcM_l=`grep 'hAT' "$tbl" | awk '{sum += $3} END {print sum}'`
+TcM_l=`grep 'TcMar' "$tbl" | awk '{sum += $3} END {print sum}'`
 printf "      TcMar-Tigger %4d %12d bp   %5.2f %%\n\n" `grep 'TcM' "$tbl" | awk '{sum += $2} END {print sum}'` "$TcM_l" `echo "$TcM_l $tle" | awk '{printf "%.2f", 100*$1/$2}'`
 
 unc_l=`grep 'Unclassified' "$tbl" | awk '{sum += $3} END {print sum}'`
